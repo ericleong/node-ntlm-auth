@@ -1,21 +1,24 @@
 {
-  "name": "smbhash",
+  "name": "ntlm-auth",
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+  	"async": "*",
+	"keep-alive-agent": "*"
+  },
   "devDependencies": {
     "nodeunit": "*"
   },
   "author": {
-    "name": "Joshua M. Clulow",
-    "email": "josh@sysmgr.org",
-    "url": "http://blog.sysmgr.org"
+    "name": "Eric Leong",
+    "email": "me@ericleong.me",
+    "url": "http://ericleong.me"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jclulow/node-smbhash"
+    "url": "git://github.com/t3hprogrammer/node-ntlm-auth"
   },
   "engines": [ "node" ],
-  "main": "lib/smbhash.js",
-  "description": "Samba LM/NT Hash Library",
-  "homepage": "https://github.com/jclulow/node-smbhash"
+  "main": "lib/ntlm-auth.js",
+  "description": "NTLM session response authentication client",
+  "homepage": "https://github.com/t3hprogrammer/node-ntlm-auth"
 }

@@ -1,62 +1,53 @@
-# node-smbhash: Samba LM/NT Hash Library
+# node-ntlm-auth: NTLM session response authentication client
 
 ## Introduction
 
-This library converts passwords into the LAN Manager (LM) and
-NT Hashes used by SMB/CIFS servers.  It was written to populate
-the sambaLMPassword and sambaNTPassword values in an LDAP directory
-for use with Samba.
+This library enables communication with an NTLM server using the session
+response protocol. 
 
-In addition, the library also provides helper methods for encoding
-and decoding the headers used during NTLM HTTP authentication.  This
-functionality should presently be considered experimental.
-
-## Installation
-
-     npm install smbhash
-
-## Hash Usage
-
-```javascript
-var lmhash = require('smbhash').lmhash;
-var nthash = require('smbhash').nthash;
-
-var pass = 'pass123';
-console.log('LM Hash: ' + lmhash(pass));
-console.log('NT Hash: ' + nthash(pass));
-```
-
-This produces output:
-
-```
-LM Hash: 4FB7D301186E0EB3AAD3B435B51404EE
-NT Hash: 5FBC3D5FEC8206A30F4B6C473D68AE76
-```
-
-## NTLM Usage
+## Authentication
 
 NTLM HTTP Authentication headers are Base64-encoded packed structures of
 three basic varieties.  Type 1 & 3 are sent from the client to the server,
-and Type 2 is from server to client.  For example:
+and Type 2 is from server to client.
+
+Because of how node.js handles keep-alive, the requests are handled by this
+library, as long as the Type 1 message is provided. The Type 1 message
+can be generated using node-smbhash or a similar library.
+
+A request is made by providing the host, path, authentication information, 
+and the Type 1 message. The response by the server to the Type 3 message 
+is the callback.
 
 ```javascript
-var ntlm = require('smbhash').ntlm;
+var ntlmRequest = require('./ntlm-auth.js').ntlmRequest;
 
-// Generate Type 1 to send to server in HTTP Request:
-var buf = ntlm.encodeType1('hostname', 'ntdomain');
-http.setHeader('Authorization', 'NTLM ' + buf.toString('base64'));
-
-// Extract Type 2 from HTTP Response header, and use it here:
-var hdr = http.getHeader('WWW-Authenticate');
-var m = hdr.match('/^NTLM (.*)$/');
-var inbuf = new Buffer(m[1], 'base64');
-var serverNonce = ntlm.decodeType2(inbuf);
-
-// Generate Type 3 to send as authentication to server:
-var buf = ntlm.encodeType3('username', 'hostname', 'ntdomain',
-  serverNonce, 'password');
-http.setHeader('Authorization', 'NTLM ' + buf.toString('base64'));
+ntlmRequest(host, path, 
+	{
+		username: 'user', 
+		workstation: 'workstation',
+		domain: 'domain',
+		password: 'password'
+	},
+	'type_1_message',
+	function(resp) {
+		resp.setEncoding('utf8');
+		resp.on('data', function (chunk) {
+			console.log(chunk);
+		}
+		
+		resp.destroy();
+	);
+});
 ```
+
+## Acknowledgements 
+
+	This library is based off of python-ntlm
+	http://code.google.com/p/python-ntlm/
+	
+	As well as functions from node-smbhash
+	https://github.com/jclulow/node-smbhash
 
 ## References
 
