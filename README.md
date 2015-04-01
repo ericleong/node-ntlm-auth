@@ -19,10 +19,23 @@ A request is made by providing the host, path, authentication information,
 and the Type 1 message. The response by the server to the Type 3 message 
 is the callback.
 
+### API
+
+| parameter | value |
+| --- | --- |
+| secure | `true` if https, http otherwise |
+| options | http(s) request options (including hostname, path, etc.)
+| body | request body |
+| auth | authentication parameters (see example) |
+| type1_msg | initial type 1 message (can usually be sniffed) |
+| callback | function to parse the response object |
+
+### Example
+
 ```javascript
 var ntlmRequest = require('./ntlm-auth.js').ntlmRequest;
 
-ntlmRequest(host, path, 
+ntlmRequest(true, requestOptions, body,
 	{
 		username: 'user', 
 		workstation: 'workstation',
@@ -51,10 +64,10 @@ ntlmRequest(host, path,
 
 ## References
 
-     The NTLM Authentication Protocol and Security Support Provider
-     Copyright (C) 2003, 2006 Eric Glass
-     http://davenport.sourceforge.net/ntlm.html
-     
-     NTLM Authentication Scheme for HTTP
-     Ronald Tschalaer / 17. June 2003
-     http://www.innovation.ch/personal/ronald/ntlm.html
+	The NTLM Authentication Protocol and Security Support Provider
+	Copyright (C) 2003, 2006 Eric Glass
+	http://davenport.sourceforge.net/ntlm.html
+	
+	NTLM Authentication Scheme for HTTP
+	Ronald Tschalaer / 17. June 2003
+	http://www.innovation.ch/personal/ronald/ntlm.html

@@ -1,9 +1,9 @@
 {
   "name": "ntlm-auth",
-  "version": "0.0.1",
+  "version": "0.1",
   "dependencies": {
-  	"async": "*",
-	"keep-alive-agent": "*"
+    "async": "*",
+    "deepcopy": "0.4.0"
   },
   "devDependencies": {
     "nodeunit": "*"
@@ -15,10 +15,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/t3hprogrammer/node-ntlm-auth"
+    "url": "git://github.com/ericleong/node-ntlm-auth"
   },
-  "engines": [ "node" ],
+  "bugs": {
+    "url": "https://github.com/ericleong/node-ntlm-auth/issues"
+  },
+  "engines": {
+    "node": ">=0.10"
+  },
   "main": "lib/ntlm-auth.js",
-  "description": "NTLM session response authentication client",
-  "homepage": "https://github.com/t3hprogrammer/node-ntlm-auth"
+  "description": "Simple one-shot NTLM authentication for http/https",
+  "homepage": "https://github.com/ericleong/node-ntlm-auth",
+  "licenses": [
+    {
+      "type": "LGPL",
+      "url": "http://www.gnu.org/licenses/lgpl.html"
+    }
+  ],
 }
