@@ -1,6 +1,6 @@
 {
   "name": "ntlm-auth",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "dependencies": {
     "async": "*",
     "deepcopy": "0.4.0"
